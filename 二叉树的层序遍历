@@ -1,0 +1,21 @@
+vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>>ansall;int deep=1;
+        doit(root,ansall,deep);
+        return ansall;
+    }
+    void doit(TreeNode*root,vector<vector<int>>&ansall,int deep)
+    {
+        if(root==nullptr)return;
+        int t=ansall.size();
+        if(deep>t)
+        {
+            vector<int>aaa;
+            aaa.push_back(root->val);
+            ansall.push_back(aaa);
+        }
+        else ansall[deep-1].push_back(root->val);
+        doit(root->left,ansall,deep+1);
+        doit(root->right,ansall,deep+1);
+    }
+    //第一次在leetcode上做出中等题yeah
+    
