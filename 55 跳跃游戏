@@ -35,3 +35,20 @@
     }
     我这里考虑了每一个0点所在位置然后只要这个点之前的x+nums[x]>0点的位置就行
     好像也可以维护一个end。
+    bool canJump(vector<int>& nums) {
+        
+        if(nums.size()==1)return true;
+        int t=nums.size();int flag=0;
+        vector<int>::iterator it;int now;
+        if(nums[0]==0)return false;int maxdistance=0;int end=0;
+        for(int i=0;i<=nums.size()-1;i++)
+        {
+            if(i<=maxdistance)                                       //当这个i大于maxdistance时也就是到了一个0之后走不了了，此时循环空转了。。
+            {
+                maxdistance=max(maxdistance,i+nums[i]);
+            }
+            if(maxdistance>=nums.size()-1)return true;
+        }
+        return false;
+    }
+    官方解答这里和第四十几题有一点区别
