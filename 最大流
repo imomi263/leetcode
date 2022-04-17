@@ -1,0 +1,81 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<cstdio>
+#include<string.h>
+using namespace std;
+int n, m;
+int r[301][301] = { 0 };
+int r1[301][301] = { 0 };
+int pre[1001] = { 0 };
+int vis[305];
+int ans = 0;
+bool bfs(int a, int b)
+{
+	queue<int>aaa;
+	memset(pre, -1, sizeof(pre));
+	memset(vis, 0, sizeof(vis));
+	pre[a] =a;
+	vis[a] = 1;
+	aaa.push(a);
+	int p;
+	while (!aaa.empty())
+	{
+		p = aaa.front();
+		aaa.pop();
+		for (int i = 1; i <= n; i++)
+		{
+			if (r[p][i] != 0 && vis[i] == 0)
+			{
+				pre[i] = p;
+				vis[i] = 1;
+				if (i == b)
+					return true;
+				aaa.push(i);
+			}
+		}
+	}
+	return false;
+}
+int jisuan(int a, int b)
+{
+	ans = 0; int d;
+	while (bfs(1, b))
+	{
+		d = 100000;
+		for (int i = b; i != a; i = pre[i])
+		{
+			d = min(d, r[pre[i]][i]);
+		}
+		for (int i = b; i != a; i = pre[i])
+		{
+			r[pre[i]][i] -= d;
+			r[i][pre[i]] += d;
+		}
+		ans = ans + d;
+	}
+	return ans;
+}
+
+int main()
+{
+	cin >> n >> m;
+	memset(r, 0, sizeof(r));
+	int a, b;
+	while (m--)
+	{
+		cin >> a >> b;
+		r[a][b] ++;
+		r[b][a]++;
+	}
+	memcpy(r1, r, sizeof(r));
+	int ans1 = 1000;
+	for (int i = 2; i <= n; i++)
+	{
+		memcpy(r, r1, sizeof(r1));
+		int t = jisuan(1, i);
+		ans1 = min(ans1, t);
+	}
+	cout << ans1<<endl;
+	return 0;
+}
