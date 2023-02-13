@@ -1,0 +1,21 @@
+def nextPermutation( nums):
+    i=0
+    n=len(nums)
+    j=0
+    if len(nums)==0:
+        return None
+    if len(nums)==1:
+        return nums
+    for i in reversed(range(n-1)):
+        if nums[i]<nums[i+1]:
+            break
+    if i==0 and nums[0]>nums[1]:
+        return reversed(nums[0:])
+    for j in reversed(range(i+1,n)):
+        if nums[j]>nums[i]:
+            nums[j],nums[i]=nums[i],nums[j]
+            nums[i+1:]=reversed(nums[i+1:])
+            break
+
+    return nums
+    // 下一个字典序就是从后看是否存在前面数小于后面数的情况，存在则将前面的数与后面比他大的数调换(从最后看第一个)，然后将后面的序列倒序就可以了
